@@ -163,4 +163,35 @@
 
 ![栅格](grid.jpg)
 
+### 在vue项目中使用
+ - npm i lib-flexible --save
+ - 在项目入口文件main.js中引入 lib-flexible   `import 'lib-flexible'`
+ - 在项目根目录的index.html文件中的头部head区域加入手机端适配的meta代码
+   + `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
+ - 结合px2rem使用 `npm install px2rem --save-dev`
+ - 在build文件中的util.js文件中进行配置
+   exports.cssLoaders = function (options) {
+     .....
+    const cssLoader = {
+          loader: 'css-loader',
+          options: {
+            minimize: process.env.NODE_ENV === 'production',
+            sourceMap: options.sourceMap
+          }
+    }
+    /*此处新增加px2remLoader*/
+    const px2remLoader = {
+      loader: 'px2rem-loader',
+      options: {
+        remUnit: 75
+      }
+    }
+    // generate loader string to be used with extract text plugin
+    function generateLoaders (loader, loaderOptions) {
+      const loaders = [cssLoader, px2remLoader] // 此处新增px2remLoader进loaders数组
+    }
+
+  - 然后重启整个项目，在根元素html和body元素设置一个根字号大小；然后就可以在设置大小的时候直接设置你量取的px数值，浏览器中检查就会看到单位变成rem了。
+
+
 
